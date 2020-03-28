@@ -12,6 +12,8 @@
     * Set up passwordless access to ssh 
       * `ssh-keygen && cat ~/.ssh/id_rsa.pub >>  ~/.ssh/authorized_keys`
       * verify this works by executing `ssh localhost`
+    * [Optional-if JAVA_HOME Not set]
+      * set JAVA_HOME in `etc/hadoop/hadoop-env.sh` by changing the line `export JAVA_HOME=${JAVA_HOME}` to `export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre`
     * Set hdfs as the default file system in `etc/hadoop/core-site.xml` 
       * ```<configuration>
         <property> 
