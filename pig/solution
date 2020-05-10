@@ -1,4 +1,6 @@
-#Find number of movies released between 1950 and 1960
+######   Movie Data Analytics ######
+
+#Q1: Find number of movies released between 1950 and 1960
 movies_data = load 'movies_dataset.txt' USING PigStorage (',') AS (movie_id:long, movie_name:chararray, year_of_release:int, rating:float, duration:long);
 filter_movie_period = FILTER movies_data BY (year_of_release >= 1950) AND (year_of_release <= 1960);
 filter_movie_group = GROUP filter_movie_period ALL;
@@ -6,7 +8,7 @@ count_movies = FOREACH filter_movie_group GENERATE COUNT(filter_movie_period);
 STORE count_movies INTO 'count_of_movies_1950_1960'; 
 
 
-#Find the number of movies having rating more than 4.
+#Q2: Find the number of movies having rating more than 4.
 movies_data = load 'movies_dataset.txt' USING PigStorage (',') AS (movie_id:long, movie_name:chararray, year_of_release:int, rating:float, duration:long);
 filter_movie_rating = FILTER movies_data BY rating > 4;
 rating_group = GROUP filter_movie_rating ALL;
@@ -14,14 +16,15 @@ count_ratings = FOREACH rating_group GENERATE COUNT(filter_movie_rating);
 STORE count_ratings INTO 'count_of_ratings_greater_than_4'; 
 
 
-#Find the movies whose rating are between 3 and 4.
+
+#Q3: Find the movies whose rating are between 3 and 4.
 movies_data = load 'movies_dataset.txt' USING PigStorage (',') AS (movie_id:long, movie_name:chararray, year_of_release:int, rating:float, duration:long);
 filter_movie_rating = FILTER movies_data BY (rating > 3.0) AND (rating <= 4.0);
 movies_with_rating_between_3_4 = FOREACH filter_movie_rating GENERATE movie_name;
 STORE movies_with_rating_between_3_4 INTO 'movies_with_rating_between_3_4'; 
 
 
-#Find the number of movies with duration more than 2 hours (7200 second).
+#Q4: Find the number of movies with duration more than 2 hours (7200 second).
 movies_data = load 'movies_dataset.txt' USING PigStorage (',') AS (movie_id:long, movie_name:chararray, year_of_release:int, rating:float, duration: long);
 filter_movie_duration = FILTER movies_data BY duration > 7200;
 duration_group = GROUP filter_movie_duration ALL;
@@ -29,7 +32,7 @@ count_movies = FOREACH duration_group GENERATE COUNT(filter_movie_duration);
 STORE count_movies INTO 'movies_with_duration_greater_than_2h'; 
 
 
-#Find the list of years and number of movies released each year.
+#Q5: Find the list of years and number of movies released each year.
 movies_data = load 'movies_dataset.txt' USING PigStorage (',') AS (movie_id:long, movie_name:chararray, year_of_release:int, rating:float, duration: long);
 year_list_all = FOREACH movies_data GENERATE year_of_release;
 year_list = GROUP year_list_all BY year_of_release;
@@ -37,7 +40,7 @@ year_movies_list = FOREACH year_list GENERATE group, COUNT(year_list_all) AS num
 STORE year_movies_list INTO 'year_to_num_of_movies';
 
 
-#Find the total number of movies in the dataset.
+#Q6: Find the total number of movies in the dataset.
 movies_data = load 'movies_dataset.txt' USING PigStorage (',') AS (movie_id:long, movie_name:chararray, year_of_release:int, rating:float, duration: long);
 movies_group = GROUP movies_data ALL; 
 count_movies = FOREACH movies_group GENERATE COUNT(movies_data);
